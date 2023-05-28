@@ -1,0 +1,12 @@
+{% extends "boatski/base.html"%}
+
+{% block "content" %}
+    <h1>Muokkaa varausta:</h1>
+        <form method="POST">
+            {% csrf_token %}
+            <table class="table">
+                {{form.as_table}}
+            </table>       
+            <input type="submit" value="Tallenna">
+        </form>
+{% endblock "content" %}
