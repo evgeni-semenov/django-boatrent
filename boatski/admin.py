@@ -3,4 +3,4 @@ from . import models
 
 admin.site.register(models.Boat)
 admin.site.register(models.Booking)
-admin.site.register(models.RentalPrice)
+admin.site.register(models.DailyRentalPrice)

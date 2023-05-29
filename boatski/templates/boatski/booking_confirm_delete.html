@@ -1,0 +1,11 @@
+{% extends "boatski/base.html" %}
+
+{% block "content" %}
+        <p>Permanently delete "<b>{{ object }}</b>". This operation cannot be undone.</p>
+
+        <form method=post>
+                {% csrf_token %}
+                <input type=submit value="Delete">
+                <a href="/"><input type="button" value="Cancel"></a>
+        </form>
+{% endblock "content" %}

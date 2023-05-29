@@ -4,9 +4,15 @@
     <h1>Muokkaa varausta:</h1>
         <form method="POST">
             {% csrf_token %}
-            <table class="table">
-                {{form.as_table}}
+            <table class="table table-striped table-hover">
+                {{form.as_table}}   
             </table>       
             <input type="submit" value="Tallenna">
+            {% if object %}
+            <a href="/bookings/{{ object.pk }}/delete">
+                <input type="button" value="Poista">
+            </a>
+            {% endif %}
         </form>
+
 {% endblock "content" %}

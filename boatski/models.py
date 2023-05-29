@@ -10,22 +10,42 @@ class Boat(models.Model):
     def __str__(self):
         return self.name
 
-class RentalPrice(models.Model):
-    boat_id = models.ForeignKey(Boat, on_delete=models.CASCADE, null=True)
-    daily_price = models.PositiveIntegerField(blank=True)
-    bookings_json = models.JSONField(null=True)
+class DailyRentalPrice(models.Model):
+    date = models.DateField()
+    daily_rent = models.PositiveIntegerField()
+    available = models.BooleanField(default=True)
+    boat = models.ForeignKey(Boat, on_delete=models.CASCADE)
 
+    class Meta:
+        unique_together = ("date", "boat")
+    
     def __str__(self):
-        return f"{self.boat}: {self.boat.reg_number}"
+        return f"{self.boat}: {self.date}: {self.daily_rent}€"
    
 
 class Booking(models.Model):
-    startDate = models.DateField()
-    endDate = models.DateField()
-    boat_id = models.ForeignKey(Boat, on_delete=models.CASCADE, null=True)
+    start_date = models.DateField()
+    end_date = models.DateField()
+    boat = models.ForeignKey(Boat, on_delete=models.CASCADE, null=True)
+    price = models.PositiveIntegerField(null=True, blank=True)
     skipper_name = models.CharField(max_length = 150)
     skipper_email = models.EmailField(blank=True)
     skipper_phone = PhoneNumberField(blank=True)
+
+    def calculate_price(self): # This method calculates the rental price based on daily prices
+        total_price = 0
+        daily_prices = DailyRentalPrice.objects.filter(
+            boat=self.boat, 
+            date__range=(self.start_date, self.end_date)
+        )
+
+        for daily_price in daily_prices:
+            total_price += daily_price.daily_rent
+        self.price = total_price
     
+    def save(self, *args, **kwargs): # This overrides Django's own save() method and calls calculate_price() to populate the correct price
+        self.calculate_price()
+        super(Booking, self).save(*args, **kwargs)
+        
     def __str__(self):
-        return f"{self.boat_id}: {self.startDate} - {self.endDate}"
+        return f"{self.boat}: {self.start_date} - {self.end_date}: {self.price}€"
