@@ -1,0 +1,14 @@
+{% extends "boatski/base.html" %}
+
+{% block "content" %}
+<h1>Booking Confirmation</h1>
+<p>Thank you for your booking. Here are your booking details:</p>
+<ul>
+    <li><strong>Boat:</strong> {{ booking.boat }}</li>
+    <li><strong>Start Date:</strong> {{ booking.start_date }}</li>
+    <li><strong>End Date:</strong> {{ booking.end_date }}</li>
+    <li><strong>Price:</strong> {{ booking.price }}€</li>
+    <li><strong>Skipper Name:</strong> {{ booking.skipper_name }}</li>
+</ul>
+
+{% endblock "content" %}

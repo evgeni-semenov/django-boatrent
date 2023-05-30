@@ -1,7 +1,7 @@
 {% extends "boatski/base.html"%}
 
 {% block "content" %}
-    <h1>Varaukset:</h1>
+    <h1>Bookings</h1>
     {% for object in object_list %}
         <p><a href="{{object.pk}}">{{object}}</a></p>
     {% endfor %}
