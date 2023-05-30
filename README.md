@@ -76,4 +76,5 @@ To stop virtualenv
 
 # References
 https://terokarvinen.com/2023/django-cheatsheet/
+
 https://terokarvinen.com/2022/deploy-django/
